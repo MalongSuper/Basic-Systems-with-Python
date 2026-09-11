@@ -34,6 +34,11 @@ def on_response(entry_field, output_frame, user_icon, chatbot_icon):
     chatbot_label = ctk.CTkLabel(chatbot_frame, text=" " + chat_response, image=chatbot_icon,
                                  compound="left", anchor="w", wraplength=500)
     chatbot_label.pack(side="left", padx=10, fill="x", expand=True)
+    
+    # Auto-scroll to the bottom
+    output_frame.update_idletasks()
+    output_frame._canvas.yview_moveto(1.0)
+    
     entry_field.delete(0, 'end')
 
 
@@ -56,8 +61,8 @@ def load_chatbot_interface(parent_window, back_to_control_panel):
                                  command=lambda: on_response(entry_field, output_frame, user_icon, chatbot_icon))
     button_field.grid(row=0, column=1, padx=10)
 
-    # Output frame
-    output_frame = ctk.CTkFrame(parent_window)
+    # Output frame - using CTkScrollableFrame for scrolling support
+    output_frame = ctk.CTkScrollableFrame(parent_window)
     output_frame.pack(side="top", pady=10, padx=20, fill="both", expand=True)
 
     # Back button
